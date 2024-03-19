@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Stock;
 
 class AdminController extends Controller
 {
@@ -93,45 +94,46 @@ public function storeCategory(Request $request)
     }
     public function stock()
 {
-    // Vous pouvez ajouter ici la logique pour récupérer les informations relatives aux stocks
-    // depuis la base de données, puis les passer à la vue
+    $stocks = Stock::all(); 
     $products = Product::all(); // Exemple de récupération de tous les produits
-    return view('admin.stock', compact('products'));
-    return view('admin.stock');
+    $stocks = []; // Declare and initialize the variable $stocks
+    return view('admin.stock',compact('products','stocks'));   
 }
 
 // Méthode pour ajouter du stock
 public function addStock(Request $request)
-{
-    // Validez les données du formulaire
-    $validatedData = $request->validate([
-        'pname' => 'required|string', // Assurez-vous que le nom du produit est requis
-        'quantity' => 'required|numeric', // Assurez-vous que la quantité est requise et numérique
-    ]);
+    {
+        // Validez les données du formulaire
+        $validatedData = $request->validate([
+            'pname' => 'required|string', // Assurez-vous que le nom du produit est requis
+            'quantity' => 'required|numeric', // Assurez-vous que la quantité est requise et numérique
+        ]);
 
-    // Recherchez le produit dans la base de données en fonction du nom du produit
-    $product = Product::where('name', $validatedData['pname'])->first();
+        // Recherchez le produit dans la base de données en fonction du nom du produit
+        $product = Product::where('name', $validatedData['pname'])->first();
 
-    // Vérifiez si le produit existe
-    if ($product) {
-        // Si le produit existe, vous pouvez ajouter la logique pour mettre à jour le stock du produit
-        // par exemple, en ajoutant la quantité spécifiée à la quantité actuelle du produit
-        $product->quantity += $validatedData['quantity'];
-        $product->save();
+        // Vérifiez si le produit existe
+        if ($product) {
+            // Créez une nouvelle entrée de stock pour le produit avec la quantité spécifiée
+            $stock = new Stock();
+            $stock->product_id = $product->id;
+            $stock->quantity = $validatedData['quantity'];
+            dd($stock);
+            dd($product);
+            dd($validatedData);
+            $stock->save();
 
-        // Redirigez l'utilisateur avec un message de succès
-        return redirect()->route('admin.stock')->with('success', 'Le stock a été ajouté avec succès.');
-    } else {
-        // Si le produit n'existe pas, redirigez l'utilisateur avec un message d'erreur
-        return redirect()->route('admin.stock')->with('error', 'Le produit spécifié n\'existe pas.');
+            // Redirigez l'utilisateur avec un message de succès
+            return redirect()->route('admin.stock')->with('success', 'Le stock a été ajouté avec succès.');
+        } else {
+            // Si le produit n'existe pas, redirigez l'utilisateur avec un message d'erreur
+            return redirect()->route('admin.stock')->with('error', 'Le produit spécifié n\'existe pas.');
+        }
     }
-}
 
-
-
-
-
-
-
-// Autres méthode
+// public function showStock()
+// {
+//     $stocks = Stock::all(); 
+//     return view('admin.stock', ['stocks' => $stocks]);
+// }
 }

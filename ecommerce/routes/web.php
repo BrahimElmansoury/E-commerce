@@ -59,3 +59,4 @@ Route::put('/admin/category/{category}', [CategoryController::class, 'update'])-
 
 Route::delete('/admin/category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 
+Route::get('/stock', [AdminController::class, 'stock'])->name('admin.stock');

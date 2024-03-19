@@ -27,4 +27,23 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.category')->with('success', 'Category updated successfully');
     }
+
+   public function destroy(Category $category)
+{
+    // Vérifier si la catégorie existe
+    if (!$category) {
+        return redirect()->route('admin.category')->with('error', 'Category not found');
+    }
+
+    try {
+        // Supprimer la catégorie
+        $category->delete();
+        return redirect()->route('admin.category')->with('success', 'Category deleted successfully');
+    } catch (\Exception $e) {
+        // Gérer les erreurs lors de la suppression
+        return redirect()->route('admin.category')->with('error', 'Failed to delete category');
+    }
+}
+
+
 }

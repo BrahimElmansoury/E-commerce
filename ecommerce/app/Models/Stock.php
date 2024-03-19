@@ -16,5 +16,6 @@ class Stock extends Model
         'Stock_out',
         'Available',
     ];
+    protected $table = 'stock';
 }
 
