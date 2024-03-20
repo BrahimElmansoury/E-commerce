@@ -9,8 +9,8 @@
 		<!-- Title -->
  		<title>Create an E-Commerce Website using HTML, CSS and JS</title>
  		<!-- Style Sheet -->
-		<link rel="stylesheet" type="text/css" href="style.css" />
- 	</head>
+         <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}" />
+        </head>
 <body>
 
 	<header>
@@ -74,7 +74,7 @@
                                     <select name="pname">
                                         <option>---Sélectionnez un Produit---</option>
                                         @foreach($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                            <option value="{{ $product->name}}">{{ $product->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,7 +103,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($stocks as $stock)
+                                {{-- @foreach($stocks as $stock)
                                 <tr>
                                     <td>{{ $stock->product_name }}</td>
                                     <td>{{ $stock->Category }}</td>
@@ -111,7 +111,7 @@
                                     <td>{{ $stock->Stock_out }}</td>
                                     <td>{{ $stock->Available }}</td>
                                 </tr>
-                                @endforeach
+                                @endforeach  --}}
                             </tbody>
                         </table>
                     </div>

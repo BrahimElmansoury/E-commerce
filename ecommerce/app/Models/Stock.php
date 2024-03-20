@@ -11,11 +11,10 @@ class Stock extends Model
 
     protected $fillable = [
         'Product_name',
-        'Category',
         'Stock_in',
-        'Stock_out',
-        'Available',
+        
     ];
     protected $table = 'stock';
+    public $timestamps = false;
 }
 

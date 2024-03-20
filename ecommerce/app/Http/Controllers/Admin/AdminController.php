@@ -92,48 +92,30 @@ public function storeCategory(Request $request)
         // Redirigez l'utilisateur vers la page de produit avec un message de succès
         return redirect()->route('admin.product')->with('success', 'Le produit a été ajouté avec succès.');
     }
-    public function stock()
-{
-    $stocks = Stock::all(); 
-    $products = Product::all(); // Exemple de récupération de tous les produits
-    $stocks = []; // Declare and initialize the variable $stocks
-    return view('admin.stock',compact('products','stocks'));   
-}
+ 
 
-// Méthode pour ajouter du stock
+    //
+    public function showStockForm()
+{
+    $products = Product::all();
+    return view('admin.stock', compact('products'));
+}
 public function addStock(Request $request)
     {
-        // Validez les données du formulaire
-        $validatedData = $request->validate([
-            'pname' => 'required|string', // Assurez-vous que le nom du produit est requis
-            'quantity' => 'required|numeric', // Assurez-vous que la quantité est requise et numérique
-        ]);
-
         // Recherchez le produit dans la base de données en fonction du nom du produit
-        $product = Product::where('name', $validatedData['pname'])->first();
-
+        $product = Product::where('name', $request->pname)->first();
+        //dd($request->pname);
+       // dd($product);
         // Vérifiez si le produit existe
-        if ($product) {
-            // Créez une nouvelle entrée de stock pour le produit avec la quantité spécifiée
+       
+            // Créez une nouvelle entrée de stock pour le produit avec les données spécifiées
             $stock = new Stock();
-            $stock->product_id = $product->id;
-            $stock->quantity = $validatedData['quantity'];
-            dd($stock);
-            dd($product);
-            dd($validatedData);
+            $stock->Product_name = $product->name;
+            $stock->Stock_in = $request->quantity; // Utilisez quantity pour Stock_in si c'est la quantité entrante
             $stock->save();
 
             // Redirigez l'utilisateur avec un message de succès
             return redirect()->route('admin.stock')->with('success', 'Le stock a été ajouté avec succès.');
-        } else {
-            // Si le produit n'existe pas, redirigez l'utilisateur avec un message d'erreur
-            return redirect()->route('admin.stock')->with('error', 'Le produit spécifié n\'existe pas.');
-        }
+      
     }
-
-// public function showStock()
-// {
-//     $stocks = Stock::all(); 
-//     return view('admin.stock', ['stocks' => $stocks]);
-// }
 }

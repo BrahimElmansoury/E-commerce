@@ -21,7 +21,7 @@ use App\Models\Admin;
 Route::get('/order', [AdminController::class, 'order'])->name('admin.order');
 Route::get('/admin', [AdminController::class, 'indexAdmin'])->name('admin.indexAdmin');
 Route::get('/product', [AdminController::class, 'product'])->name('admin.product');
-Route::get('/stock', [AdminController::class, 'stock'])->name('admin.stock');
+//Route::get('/stock', [AdminController::class, 'stock'])->name('admin.stock');
 Route::get('/category', [AdminController::class, 'category'])->name('admin.category');
 
 
@@ -38,8 +38,8 @@ Route::get('/category', [AdminController::class, 'category'])->name('admin.categ
 //Route::post('/category', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
 Route::post('/category', [AdminController::class, 'storeCategory'])->name('category.store');
 
-Route::post('/admin/add-stock', [AdminController::class, 'addStock'])->name('admin.addStock');
-Route::post('/admin/addStock', [AdminController::class, 'addStock'])->name('admin.addStock');
+//Route::post('/admin/add-stock', [AdminController::class, 'addStock'])->name('admin.addStock');
+//Route::post('/admin/addStock', [AdminController::class, 'addStock'])->name('admin.addStock');
 
 
 
@@ -59,4 +59,7 @@ Route::put('/admin/category/{category}', [CategoryController::class, 'update'])-
 
 Route::delete('/admin/category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 
-Route::get('/stock', [AdminController::class, 'stock'])->name('admin.stock');
+//Route::get('/stock', [AdminController::class, 'stock'])->name('admin.stock');
+
+Route::get('/admin/stock', [AdminController::class, 'showStockForm'])->name('admin.stock');
+Route::post('/admin/stock', [AdminController::class, 'addStock'])->name('admin.addStock');
